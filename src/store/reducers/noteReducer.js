@@ -7,7 +7,7 @@ const initialState = {
 const noteReducer = (state= initialState, action) => {
     switch (action.type) {
         case 'CREATE_NOTE':
-            console.log('created note scdsdc', action.note)
+            console.log('note created', action.note)
             return state;
 
         case 'CREATE_NOTE_ERROR':

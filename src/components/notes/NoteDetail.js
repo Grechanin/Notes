@@ -7,6 +7,7 @@ import { compose } from "redux";
 import { showHideToggleCommentFormAction } from "../../store/actions/commentActions";
 import { showHideToggleEditNoteFormAction } from '../../store/actions/noteActions'
 import CreateEditNote from "./CreateEditNote";
+import {properComponentToDataProvider} from "./utils";
 
 const NoteDetail = (props) => {
     const {note} = props;
@@ -63,6 +64,24 @@ const mapStateToProps = (state, props) => {
     }
 }
 
+const mapStateToPropsWithoutFirebase = (state, props) => {
+    const note_id = props.match.params.id;
+    let note = null;
+    let notes = JSON.parse(localStorage.getItem('notes'))
+    for (let n of notes) {
+        if (n.id === note_id) {
+            note = n;
+            break;
+        }
+    }
+    return {
+        note: note,
+        // comments: state.firestore.ordered.comments,
+        is_show_create_comment_form: state.comment.is_show_create_comment_form,
+        is_show_edit_node_form: state.note.is_show_edit_node_form,
+    }
+}
+
 const mapDispatchToProps = (dispatch) => {
     return {
         showHideToggleCommentFormAction: (is_show_create_comment_form) => dispatch(showHideToggleCommentFormAction(is_show_create_comment_form)),
@@ -70,7 +89,24 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 
-export default compose(
+// export default compose(
+//     firestoreConnect((props) => [
+//         {
+//             collection: 'notes',
+//             doc: props.match.params.id
+//         },
+//         {
+//             collection: `notes/${props.match.params.id}/comments`,
+//             limit: 20,
+//             orderBy: ['created_at', 'desc'],
+//             storeAs: 'comments'
+//         }
+//     ]),
+//     connect(mapStateToProps, mapDispatchToProps)
+// )(NoteDetail)
+
+
+export default properComponentToDataProvider(compose(
     firestoreConnect((props) => [
         {
             collection: 'notes',
@@ -84,4 +120,6 @@ export default compose(
         }
     ]),
     connect(mapStateToProps, mapDispatchToProps)
-)(NoteDetail)
+    )(NoteDetail),
+    connect(mapStateToPropsWithoutFirebase, mapDispatchToProps)(NoteDetail)
+)

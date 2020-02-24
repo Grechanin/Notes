@@ -6,10 +6,13 @@ const ChooseDataProvider = () => {
     const handleOnChangeRadioButton = (e) => {
         if (e.target.value === 'local_storage') {
             localStorage.setItem('is_local_storage_provider', '1')
-            setLocalStorageProvider(true)
+            setLocalStorageProvider(true);
+            window.location.reload();
+
         } else {
             localStorage.setItem('is_local_storage_provider', '')
             setLocalStorageProvider(false)
+            window.location.reload();
         }
     }
 
