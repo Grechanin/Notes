@@ -59,6 +59,12 @@ export const editNoteAction = (note_id, note) => {
     }
 }
 
+export const closeModalCreated = () => {
+    return (dispatch, getState, {getFirestore, getFirebase}) => {
+        dispatch({type: 'CLOSE_MODAL_CREATED'});
+    }
+}
+
 export const showHideToggleEditNoteFormAction = (is_show) => {
     return (dispatch, getState, {getFirestore, getFirebase}) => {
         dispatch({type: 'HIDE_SHOW_TOGGLE_EDIT_NODE_FORM', is_show: is_show});

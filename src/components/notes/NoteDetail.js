@@ -71,7 +71,7 @@ const mapStateToPropsFromLocalStore = (state, props) => {
     }
     const note_index = notes.findIndex(checkNoteId);
     const note = notes[note_index];
-    const comments = note && note.comments.reverse();
+    const comments = note && note.comments && note.comments.reverse();
 
     return {
         note: note,
@@ -88,22 +88,6 @@ const mapDispatchToProps = (dispatch) => {
         showHideToggleEditNoteForm: (is_show_edit_node_form) => dispatch(showHideToggleEditNoteFormAction(is_show_edit_node_form))
     }
 }
-
-// export default compose(
-//     firestoreConnect((props) => [
-//         {
-//             collection: 'notes',
-//             doc: props.match.params.id
-//         },
-//         {
-//             collection: `notes/${props.match.params.id}/comments`,
-//             limit: 20,
-//             orderBy: ['created_at', 'desc'],
-//             storeAs: 'comments'
-//         }
-//     ]),
-//     connect(mapStateToProps, mapDispatchToProps)
-// )(NoteDetail)
 
 
 export default properComponentToDataProvider(compose(

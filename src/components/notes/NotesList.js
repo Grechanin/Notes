@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React from 'react';
 import Note from './Note'
 import {properComponentToDataProvider} from './utils'
 import { connect } from 'react-redux'
@@ -8,8 +8,6 @@ import { compose } from "redux";
 
 const NotesList = (props) => {
     const is_local_storage_provider = localStorage.getItem('is_local_storage_provider');
-    // const {is_local_storage_provider} = props;
-    console.log('is_local_storage_provider',is_local_storage_provider)
 
     let notes;
     if (!is_local_storage_provider) {

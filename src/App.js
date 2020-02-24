@@ -1,5 +1,5 @@
 import React from 'react';
-import {BrowserRouter, Route, Switch} from "react-router-dom";
+import {BrowserRouter, Route} from "react-router-dom";
 import Navbar from "./components/layouts/Navbar";
 import NotesList from "./components/notes/NotesList";
 import CreateNote from "./components/notes/CreateEditNote"

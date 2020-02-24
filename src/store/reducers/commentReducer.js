@@ -5,7 +5,6 @@ const initialState = {
 const commentReducer = (state= initialState, action) => {
     switch (action.type) {
         case 'CREATE_COMMENT':
-            console.log('created comment', action.comment)
             state = {...state, is_show_create_comment_form: false}
             return state;
 
