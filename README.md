@@ -1,6 +1,5 @@
 ## Task description
 
-In the project directory, you can run:
 
 ### `Тестовое задание`
 
