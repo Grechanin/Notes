@@ -6,8 +6,10 @@ class CreateEditNote extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            'name': '',
-            'content': ''
+            name: '',
+            content: '',
+            is_validate_name_err: false,
+            is_validate_content_err: false
         }
     }
 
@@ -27,12 +29,38 @@ class CreateEditNote extends Component {
         }
     }
 
+    isFormValid = () => {
+        let is_form_valid = true;
+
+        const name = this.state.name;
+        if (!content) {
+            this.setState({
+                is_validate_name_err: true
+            })
+            is_form_valid = false;
+        } else {
+            this.setState({is_validate_name_err: false})
+        }
+
+        const content = this.state.content;
+        if (!content) {
+            this.setState({
+                is_validate_content_err: true
+            })
+            is_form_valid = false;
+        } else {
+            this.setState({is_validate_content_err: false})
+        }
+        return is_form_valid
+    }
+
     onclickCloseBtnHandler = (e) => {
         e.preventDefault();
         this.props.showHideToggleEditNoteFormAction(false);
     }
 
     render() {
+        const {is_validate_name_err, is_validate_content_err} =this.state;
         return (
             <div>
                 {!this.props.is_edit_mode ?
@@ -44,10 +72,16 @@ class CreateEditNote extends Component {
                     <div className="form-group">
                         <label htmlFor="name">Name</label>
                         <input type="text" className="form-control" id="name" required onChange={this.handleChange} />
+                        <div className={is_validate_name_err ? 'd-block invalid-feedback' : 'd-none'}>
+                            Please provide name.
+                        </div>
                     </div>
                     <div className="form-group">
                         <label htmlFor="content">Content</label>
                         <textarea className="form-control" id="content" rows="3" required onChange={this.handleChange} ></textarea>
+                        <div className={is_validate_content_err ? 'd-block invalid-feedback' : 'd-none'}>
+                            Please provide content.
+                        </div>
                     </div>
                     {!this.props.is_edit_mode ?
                         <button type="submit" className="btn btn-success">Create</button>
