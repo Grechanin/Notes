@@ -1,4 +1,3 @@
-
 export const createNoteAction = (note) => {
     const is_local_storage_provider = localStorage.getItem('is_local_storage_provider');
     note.created_at = new Date();

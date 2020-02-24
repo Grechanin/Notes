@@ -5,7 +5,6 @@ import NavLinks from "./NavLinks"
 const Navbar = () => {
     return (
         <header>
-
             <nav className="navbar navbar-expand-md navbar-dark bg-dark">
                 <div className="container">
                     <Link className="navbar-brand" to='/'>Test app</Link>
@@ -18,7 +17,6 @@ const Navbar = () => {
                     </div>
                 </div>
             </nav>
-
         </header>
     )
 }
