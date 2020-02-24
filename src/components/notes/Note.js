@@ -3,7 +3,6 @@ import {Link} from "react-router-dom";
 import moment from "moment";
 
 const Note = ({note, is_local_storage_provider}) => {
-    console.log('note.created_at',typeof(note.created_at))
     return (
         <Link to={ "/note_detail/" + note.id } className="list-group-item list-group-item-action">
             <div className="d-flex w-100 justify-content-between">

@@ -10,9 +10,7 @@ import CreateEditNote from "./CreateEditNote";
 import {properComponentToDataProvider} from "./utils";
 
 const NoteDetail = (props) => {
-    const {note} = props;
-    const {comments} = props;
-    const {is_show_create_comment_form, is_show_edit_node_form} = props;
+    const {note, comments, is_show_create_comment_form, is_show_edit_node_form, is_local_storage_provider} = props;
 
     const handleAddCommentButton = (e) => {
         e.preventDefault();
@@ -42,7 +40,7 @@ const NoteDetail = (props) => {
                     <div>
                         <h2>Comments</h2>
                         { comments.map((comment) => {
-                            return <Comment comment={comment} key={comment.id} />
+                            return <Comment comment={comment} is_local_storage_provider={is_local_storage_provider} key={comment.id} />
                         }) }
                     </div>
                     : <h3>No comments</h3>
@@ -64,19 +62,21 @@ const mapStateToProps = (state, props) => {
     }
 }
 
-const mapStateToPropsWithoutFirebase = (state, props) => {
+const mapStateToPropsFromLocalStore = (state, props) => {
     const note_id = props.match.params.id;
-    let note = null;
-    let notes = JSON.parse(localStorage.getItem('notes'))
-    for (let n of notes) {
-        if (n.id === note_id) {
-            note = n;
-            break;
-        }
+    const notes = JSON.parse(localStorage.getItem('notes'));
+
+    const checkNoteId = (note) => {
+        return note.id === note_id && note
     }
+    const note_index = notes.findIndex(checkNoteId);
+    const note = notes[note_index];
+    const comments = note && note.comments.reverse();
+
     return {
         note: note,
-        // comments: state.firestore.ordered.comments,
+        comments: comments,
+        is_local_storage_provider: 1,
         is_show_create_comment_form: state.comment.is_show_create_comment_form,
         is_show_edit_node_form: state.note.is_show_edit_node_form,
     }
@@ -121,5 +121,5 @@ export default properComponentToDataProvider(compose(
     ]),
     connect(mapStateToProps, mapDispatchToProps)
     )(NoteDetail),
-    connect(mapStateToPropsWithoutFirebase, mapDispatchToProps)(NoteDetail)
+    connect(mapStateToPropsFromLocalStore, mapDispatchToProps)(NoteDetail)
 )
