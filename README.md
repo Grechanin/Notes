@@ -2,8 +2,6 @@
 
 ### Note: In this app you can use mine firebase API or replace with yours
 
-### Note: In this app you can use mine firebase API or replace with yours
-
 ## Task description
 
 
