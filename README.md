@@ -1,3 +1,7 @@
+### Click https://notes-list-a8d83.web.app/ to test app
+
+### Note: In this app you can use mine firebase API or replace with yours
+
 ### Note: In this app you can use mine firebase API or replace with yours
 
 ## Task description
