@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { connect } from 'react-redux'
 import { createNoteAction, editNoteAction, closeModalCreated, showHideToggleEditNoteFormAction } from "../../store/actions/noteActions";
 import Modal from "react-bootstrap/Modal";
@@ -54,7 +54,15 @@ const CreateEditNote = (props) => {
         props.closeModalCreated();
     }
 
-    const {show_modal_created} = props;
+    useEffect(() => {
+        const { note } = props;
+        if (note) {
+            setName(note.name);
+            setContent(note.content)
+        };
+    }, []);
+
+    const {show_modal_created, note} = props;
     return (
         <div>
             {!props.is_edit_mode ?

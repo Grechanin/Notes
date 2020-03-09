@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import { firestoreConnect } from 'react-redux-firebase'
 import { compose } from "redux";
 import { showHideToggleCommentFormAction } from "../../store/actions/commentActions";
-import { showHideToggleEditNoteFormAction } from '../../store/actions/noteActions'
+import { showHideToggleEditNoteFormAction, deleteNoteAction } from '../../store/actions/noteActions'
 import CreateEditNote from "./CreateEditNote";
 import {properComponentToDataProvider} from "./utils";
 
@@ -22,12 +22,21 @@ const NoteDetail = (props) => {
         props.showHideToggleEditNoteForm(!props.is_show_edit_node_form);
     }
 
+    const handleDeleteNote = (e) => {
+        e.preventDefault();
+        const noteId = props.match.params.id
+        props.deleteNote(noteId, comments);
+    }
+
     if (note){
         return (
             <div>
                 <h2>Note</h2>
                 <div className="card w-100">
                     <div className="card-body">
+                        <button onClick={handleDeleteNote} className="close" title='delete note'>
+                            <span aria-hidden="true">&times;</span>
+                        </button>
                         <h5 className="card-title">{ note.name }</h5>
                         <p className="card-text">{ note.content }</p>
                         <button onClick={handleAddCommentButton} className="btn btn-primary">Add comment</button>
@@ -35,7 +44,7 @@ const NoteDetail = (props) => {
                     </div>
                 </div>
                 {is_show_create_comment_form ? <CreateComment note_id={props.match.params.id} /> : ''}
-                {is_show_edit_node_form ? <CreateEditNote note_id={props.match.params.id} is_edit_mode={true} /> : ''}
+                {is_show_edit_node_form ? <CreateEditNote note={note} note_id={props.match.params.id} is_edit_mode={true} /> : ''}
                 { comments && comments.length ?
                     <div>
                         <h2>Comments</h2>
@@ -85,7 +94,8 @@ const mapStateToPropsFromLocalStore = (state, props) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         showHideToggleCommentFormAction: (is_show_create_comment_form) => dispatch(showHideToggleCommentFormAction(is_show_create_comment_form)),
-        showHideToggleEditNoteForm: (is_show_edit_node_form) => dispatch(showHideToggleEditNoteFormAction(is_show_edit_node_form))
+        showHideToggleEditNoteForm: (is_show_edit_node_form) => dispatch(showHideToggleEditNoteFormAction(is_show_edit_node_form)),
+        deleteNote: (noteId, comments) => dispatch(deleteNoteAction(noteId, comments))
     }
 }
 

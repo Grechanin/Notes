@@ -12,6 +12,10 @@ const commentReducer = (state= initialState, action) => {
             console.log('create comment error', action.err)
             return state;
 
+        case 'COMMENT_DELETE_ERROR':
+            console.log('comment comment error', action.err)
+            return state;
+
         case 'HIDE_SHOW_TOGGLE_COMMENT_FORM':
             state = {...state, is_show_create_comment_form: action.is_show}
             return state;
