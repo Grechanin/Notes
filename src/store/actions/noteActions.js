@@ -64,33 +64,28 @@ export const closeModalCreated = () => {
     }
 }
 
-export const showHideToggleEditNoteFormAction = (is_show) => {
-    return (dispatch, getState, {getFirestore, getFirebase}) => {
-        dispatch({type: 'HIDE_SHOW_TOGGLE_EDIT_NODE_FORM', is_show: is_show});
-    }
-}
-
 export const deleteNoteAction = (noteId, comments) => {
     return (dispatch, getState, {getFirestore, getFirebase}) => {
         const firestore = getFirestore();
-        const err = removeComments(firestore, noteId, comments);
-        if(err) {
-            dispatch({type: 'COMMENT_DELETE_ERROR', err});
-        }else {
+
+        const deleteNote = () => {
             firestore.collection('notes').doc(noteId).delete().then(() => {
                 dispatch({type: 'NOTE_DELETED'});
             }).catch((err) => {
                 dispatch({type: 'NOTE_DELETE_ERROR', err});
             })
         }
-    }
-}
 
-export const removeComments = (firestore, noteId, comments) => {
-    comments.forEach((comment)=>{
-        firestore.collection('notes').doc(noteId).collection('comments').doc(comment.id).delete().catch((err) => {
-            return err;
-        })
-    });
-    return 0
+        let isCommentDeleteError = false;
+        comments.forEach((comment, index)=>{
+            firestore.collection('notes').doc(noteId).collection('comments').doc(comment.id).delete().then(() => {
+                comments.length === index + 1 && !isCommentDeleteError && deleteNote();
+            }).catch((err) => {
+                isCommentDeleteError = true
+                dispatch({type: 'COMMENT_DELETE_ERROR', err});
+            })
+        });
+
+
+    }
 }

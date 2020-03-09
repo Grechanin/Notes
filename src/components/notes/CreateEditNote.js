@@ -1,8 +1,10 @@
 import React, {useState, useEffect} from 'react';
 import { connect } from 'react-redux'
-import { createNoteAction, editNoteAction, closeModalCreated, showHideToggleEditNoteFormAction } from "../../store/actions/noteActions";
+import { createNoteAction, editNoteAction, closeModalCreated } from "../../store/actions/noteActions";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
+
+const useValidateNoteForm = () => {}
 
 
 const CreateEditNote = (props) => {
@@ -11,6 +13,7 @@ const CreateEditNote = (props) => {
     const [is_validate_name_err, setIsValidateNameErr] = useState(false);
     const [is_validate_content_err, setIsValidateContentErr] = useState(false);
 
+    const {show_modal_created, handleCloseButton} = props;
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -20,6 +23,7 @@ const CreateEditNote = (props) => {
             } else {
                 const {note_id} = props;
                 props.editNote(note_id, {name, content})
+                handleCloseButton();
             }
         }
     }
@@ -43,11 +47,6 @@ const CreateEditNote = (props) => {
         return is_form_valid
     }
 
-    const onclickCloseBtnHandler = (e) => {
-        e.preventDefault();
-        props.showHideToggleEditNoteFormAction(false);
-    }
-
     const handleClose = () => {
         setName('');
         setContent('');
@@ -62,7 +61,6 @@ const CreateEditNote = (props) => {
         };
     }, []);
 
-    const {show_modal_created, note} = props;
     return (
         <div>
             {!props.is_edit_mode ?
@@ -90,7 +88,7 @@ const CreateEditNote = (props) => {
                     :
                     <div>
                         <button type="submit" className="btn btn-success">Edit</button>
-                        <button type="button" className="btn btn-primary ml-2" onClick={ onclickCloseBtnHandler }>Close</button>
+                        <button type="button" className="btn btn-primary ml-2" onClick={handleCloseButton}>Close</button>
                     </div>
 
                 }
@@ -121,7 +119,6 @@ const mapDispatchToProps = (dispatch) => {
         createNote: (note) => dispatch(createNoteAction(note)),
         editNote: (note_id, note) => dispatch(editNoteAction(note_id, note)),
         closeModalCreated: () => dispatch(closeModalCreated()),
-        showHideToggleEditNoteFormAction: (is_show) => dispatch(showHideToggleEditNoteFormAction(is_show))
     }
 }
 

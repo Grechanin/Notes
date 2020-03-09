@@ -1,6 +1,5 @@
 const initialState = {
-    show_modal_created: false,
-    is_show_edit_node_form: false
+    show_modal_created: false
 }
 
 const noteReducer = (state= initialState, action) => {
@@ -21,11 +20,7 @@ const noteReducer = (state= initialState, action) => {
             state = {...state, show_modal_created: false}
             return state;
 
-        case 'HIDE_SHOW_TOGGLE_EDIT_NODE_FORM':
-            state = {...state, is_show_edit_node_form: action.is_show}
-            return state;
-
-        case 'NOTE_DELETE_ERROR':
+        case 'NOTE_DELETED':
             console.log('note deleted', action.err)
             return state;
 

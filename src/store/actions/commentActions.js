@@ -35,9 +35,3 @@ export const createComment = (note_id, comment) => {
         }
     }
 }
-
-export const showHideToggleCommentFormAction = (is_show) => {
-    return (dispatch, getState, {getFirestore, getFirebase}) => {
-            dispatch({type: 'HIDE_SHOW_TOGGLE_COMMENT_FORM', is_show: is_show});
-    }
-}

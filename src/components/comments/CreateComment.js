@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux'
-import { createComment, showHideToggleCommentFormAction} from "../../store/actions/commentActions";
+import { createComment } from "../../store/actions/commentActions";
 
 class CreateComment extends Component {
     constructor(props) {
@@ -24,6 +24,7 @@ class CreateComment extends Component {
         const [is_form_valid, author] = this.isFormValid();
         if (is_form_valid) {
             this.props.CreateComment(this.props.note_id, {author: author, content: this.state.content});
+            this.props.handleCloseButton();
         }
     }
 
@@ -60,10 +61,6 @@ class CreateComment extends Component {
         return [is_form_valid, author]
     }
 
-    onclickCloseBtnHandler = () => {
-        this.props.showHideToggleCommentFormAction(false);
-    }
-
     render() {
         const {is_validate_author_err, is_validate_content_err} =this.state;
         return (
@@ -85,7 +82,7 @@ class CreateComment extends Component {
                         </div>
                     </div>
                     <button type="submit" className="btn btn-success">Create</button>
-                    <button type="button" className="btn btn-primary ml-2" onClick={ this.onclickCloseBtnHandler }>Close</button>
+                    <button type="button" className="btn btn-primary ml-2" onClick={()=>this.props.handleCloseButton()}>Close</button>
                 </form>
             </div>
         );
@@ -94,8 +91,7 @@ class CreateComment extends Component {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        CreateComment: (note_id, comment) => dispatch(createComment(note_id, comment)),
-        showHideToggleCommentFormAction: (is_show) => dispatch(showHideToggleCommentFormAction(is_show))
+        CreateComment: (note_id, comment) => dispatch(createComment(note_id, comment))
     }
 }
 
